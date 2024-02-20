@@ -68,11 +68,11 @@ class valorantBot():
             atkWin=(float((self.driver.find_element(By.XPATH, "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ "+ str(i) + "]/div[4]/p[1]").text).strip('%'))/100.0)
             defWin=(float((self.driver.find_element(By.XPATH, "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ " + str(i) + "]/div[5]/p[1]").text).strip('%'))/100.)
             numMatches=(int(float((self.driver.find_element(By.XPATH, "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[6]/span[1]").text).replace(',', ''))))'''
-            mapName=(self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[2]/a[1]/span[1]").text)
-            playRate=(float((self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[3]/span[1]").text).strip('%'))/100.0)
-            atkWin=(float((self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ "+ str(i) + "]/div[4]/p[1]").text).strip('%'))/100.0)
-            defWin=(float((self.fTry("/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ " + str(i) + "]/div[5]/p[1]").text).strip('%'))/100.)
-            numMatches=(int(float((self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[6]/span[1]").text).replace(',', ''))))
+            mapName=self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[2]/a[1]/span[1]").text
+            playRate=self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[3]/span[1]").text
+            atkWin=self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ "+ str(i) + "]/div[4]/p[1]").text
+            defWin=self.fTry("/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[ " + str(i) + "]/div[5]/p[1]").text
+            numMatches=self.fTry( "/html[1]/body[1]/main[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/section[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[" + str(i) + "]/div[6]/span[1]").text
             maps_list.append([mapName, playRate, atkWin, defWin, numMatches])
         maps_df = pd.DataFrame(maps_list, columns=["Map Name", "Play Rate", "Atk Win", "Def Win", "Num Matches"])
         #maps_df = pd.DataFrame(maps_list)
@@ -94,9 +94,10 @@ class valorantBot():
                 for i in range(3, 28):
                     print(f"Completing analysis of tier {i}...")
                     self.driver.get(f'https://blitz.gg/valorant/stats/maps?sortBy=attackingRoundWinRate&sortDirection=DESC&mode=competitive&rank={i}')
-                    idk = self.driver.window_handles
-                    self.driver.switch_to.window(idk[0])
+                    
                     if tabSwitch == False:
+                        idk = self.driver.window_handles
+                        self.driver.switch_to.window(idk[0])
                         sleep(10)
                         tabSwitch = True
                     else:
@@ -170,9 +171,10 @@ class valorantBot():
                 print(f"Completing analysis of tier {i}...")
                 #self.driver.get(f'https://blitz.gg/valorant/stats/maps?sortBy=attackingRoundWinRate&sortDirection=DESC&mode=competitive&rank={0}')
                 self.driver.get(f'https://blitz.gg/valorant/stats/agents?sortBy=winRate&type=general&sortDirection=DESC&mode=competitive&rank={i}&map={mapName}')
-                idk = self.driver.window_handles
-                self.driver.switch_to.window(idk[0])
+                
                 if tabSwitch == False:
+                    idk = self.driver.window_handles
+                    self.driver.switch_to.window(idk[0])
                     sleep(10)
                     tabSwitch = True
                 else:
@@ -234,12 +236,13 @@ class valorantBot():
                     #while(loop == True):
                         #try:
                     self.driver.get(f'https://blitz.gg/valorant/stats/agents?sortBy=winRate&type=abilities&sortDirection=DESC&mode=competitive&rank={i}&map={mapName}')
-                    idk = self.driver.window_handles
-                    self.driver.switch_to.window(idk[0])
+                    
                            # loop = False
                         #except:
                            # loop = True
                     if tabSwitch == False:
+                        idk = self.driver.window_handles
+                        self.driver.switch_to.window(idk[0])
                         sleep(10)
                         tabSwitch = True
                     else:
@@ -295,9 +298,10 @@ class valorantBot():
                     for i in range(3, 28):
                         print(f"Completing analysis of tier {i}...")
                         self.driver.get(f'https://blitz.gg/valorant/stats/weapons?sortBy=avgDamage&type=all&sortDirection=DESC&mode=competitive&rank={i}&map={mapName}')
-                        idk = self.driver.window_handles
-                        self.driver.switch_to.window(idk[0])
+                        
                         if tabSwitch == False:
+                            idk = self.driver.window_handles
+                            self.driver.switch_to.window(idk[0])
                             sleep(10)
                             tabSwitch = True
                         else:
@@ -309,7 +313,7 @@ class valorantBot():
 
 bot = valorantBot()
 #sleep(100)
-#bot.getMaps()
-bot.getAgents()
+bot.getMaps()
+#bot.getAgents()
 #bot.getAbilities()
 #bot.getWeapons()
